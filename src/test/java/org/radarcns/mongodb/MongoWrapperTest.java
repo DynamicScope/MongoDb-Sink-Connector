@@ -16,11 +16,13 @@
 
 package org.radarcns.mongodb;
 
+import static org.apache.kafka.connect.sink.SinkConnector.TOPICS_CONFIG;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.radarcns.mongodb.MongoDbSinkConnector.COLLECTION_FORMAT;
+import static org.radarcns.mongodb.MongoDbSinkConnector.CONFIG_DEF;
 import static org.radarcns.mongodb.MongoDbSinkConnector.MONGO_DATABASE;
 import static org.radarcns.mongodb.MongoDbSinkConnector.MONGO_HOST;
 import static org.radarcns.mongodb.MongoDbSinkConnector.MONGO_PASSWORD;
@@ -52,6 +54,7 @@ public class MongoWrapperTest {
         configMap.put(MONGO_PORT, MONGO_PORT_DEFAULT + 1000);
         configMap.put(MONGO_HOST, "localhost");
         configMap.put(MONGO_DATABASE, "mydb");
+        configMap.put(TOPICS_CONFIG, "mytopic");
         configMap.put(COLLECTION_FORMAT, "{$topic}");
 
         Field credentialsField = MongoWrapper.class.getDeclaredField("credentials");
@@ -61,7 +64,7 @@ public class MongoWrapperTest {
                 .socketTimeout(1)
                 .serverSelectionTimeout(1)
                 .build();
-        MongoWrapper wrapper = new MongoWrapper(new AbstractConfig(configMap), timeout);
+        MongoWrapper wrapper = new MongoWrapper(new AbstractConfig(CONFIG_DEF, configMap), timeout);
 
         assertThat((List<?>)credentialsField.get(wrapper), empty());
         assertFalse(wrapper.checkConnection());
@@ -84,6 +87,7 @@ public class MongoWrapperTest {
         configMap.put(MONGO_PORT, MONGO_PORT_DEFAULT + 1000);
         configMap.put(MONGO_HOST, "localhost");
         configMap.put(MONGO_DATABASE, "mydb");
+        configMap.put(TOPICS_CONFIG, "mytopic");
         configMap.put(COLLECTION_FORMAT, "{$topic}");
 
         Field credentialsField = MongoWrapper.class.getDeclaredField("credentials");
@@ -93,7 +97,7 @@ public class MongoWrapperTest {
                 .socketTimeout(1)
                 .serverSelectionTimeout(1)
                 .build();
-        MongoWrapper wrapper = new MongoWrapper(new AbstractConfig(configMap), timeout);
+        MongoWrapper wrapper = new MongoWrapper(new AbstractConfig(CONFIG_DEF, configMap), timeout);
 
         assertThat((List<?>)credentialsField.get(wrapper), empty());
         assertFalse(wrapper.checkConnection());
@@ -114,6 +118,7 @@ public class MongoWrapperTest {
         configMap.put(MONGO_PORT, MONGO_PORT_DEFAULT + 1000);
         configMap.put(MONGO_HOST, "localhost");
         configMap.put(MONGO_DATABASE, "mydb");
+        configMap.put(TOPICS_CONFIG, "mytopic");
         configMap.put(COLLECTION_FORMAT, "{$topic}");
 
         Field credentialsField = MongoWrapper.class.getDeclaredField("credentials");
@@ -123,7 +128,7 @@ public class MongoWrapperTest {
                 .socketTimeout(1)
                 .serverSelectionTimeout(1)
                 .build();
-        MongoWrapper wrapper = new MongoWrapper(new AbstractConfig(configMap), timeout);
+        MongoWrapper wrapper = new MongoWrapper(new AbstractConfig(CONFIG_DEF, configMap), timeout);
 
         assertThat((List<?>)credentialsField.get(wrapper), hasSize(1));
         assertFalse(wrapper.checkConnection());

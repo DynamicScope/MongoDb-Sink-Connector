@@ -17,6 +17,7 @@
 package org.radarcns.mongodb;
 
 import static org.radarcns.mongodb.MongoDbSinkConnector.BUFFER_CAPACITY;
+import static org.radarcns.mongodb.MongoDbSinkConnector.CONFIG_DEF;
 import static org.radarcns.mongodb.MongoDbSinkConnector.RECORD_CONVERTER;
 
 import java.util.Collection;
@@ -73,7 +74,7 @@ public class MongoDbSinkTask extends SinkTask {
         timerThread = new Timer();
         timerThread.schedule(monitor, 0, 30_000);
 
-        AbstractConfig config = new AbstractConfig(
+        AbstractConfig config = new AbstractConfig(CONFIG_DEF,
                 new MongoDbSinkConnector().config().parse(props));
 
         buffer = new ArrayBlockingQueue<>(config.getInt(BUFFER_CAPACITY));
