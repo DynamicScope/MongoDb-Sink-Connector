@@ -150,6 +150,7 @@ public class MongoDbWriter implements Closeable, Runnable {
     }
 
     private Document getDoc(SinkRecord record) throws DataException {
+        log.error("Jake - {}", record);
         RecordConverter converter = converterFactory.getRecordConverter(record);
 
         try {
