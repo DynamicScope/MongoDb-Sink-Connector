@@ -86,6 +86,7 @@ public class MongoDbSinkTask extends SinkTask {
         } catch (InstantiationException | IllegalAccessException | ClassCastException ex) {
             throw new IllegalWorkerStateException("Got illegal RecordConverterClass", ex);
         }
+        log.error("Jake - {}", buffer);
         writer = createMongoDbWriter(config, buffer, converterFactory, timerThread);
         writerThread = new Thread(writer, "MongDB-writer");
         writerThread.start();
