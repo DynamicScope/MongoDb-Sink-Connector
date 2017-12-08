@@ -86,7 +86,6 @@ public class MongoDbSinkTask extends SinkTask {
         } catch (InstantiationException | IllegalAccessException | ClassCastException ex) {
             throw new IllegalWorkerStateException("Got illegal RecordConverterClass", ex);
         }
-        log.error("Jake - {}", buffer);
         writer = createMongoDbWriter(config, buffer, converterFactory, timerThread);
         writerThread = new Thread(writer, "MongDB-writer");
         writerThread.start();
@@ -119,6 +118,8 @@ public class MongoDbSinkTask extends SinkTask {
             log.debug("Init put");
             actionTimer.reset();
         }
+
+        log.error("Jake - {}", sinkRecords.size());
 
         for (SinkRecord record : sinkRecords) {
             TopicPartition partition = new TopicPartition(record.topic(),
