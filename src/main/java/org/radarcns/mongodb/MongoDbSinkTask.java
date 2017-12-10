@@ -119,8 +119,6 @@ public class MongoDbSinkTask extends SinkTask {
             actionTimer.reset();
         }
 
-        log.error("Jake - {}", sinkRecords.size());
-
         for (SinkRecord record : sinkRecords) {
             TopicPartition partition = new TopicPartition(record.topic(),
                     record.kafkaPartition());
