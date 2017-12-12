@@ -33,7 +33,7 @@ import org.apache.kafka.common.config.ConfigValue;
 import org.apache.kafka.common.utils.AppInfoParser;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.sink.SinkConnector;
-import org.radarcns.serialization.RecordConverterFactory;
+import org.radarcns.serialization.EggbunRecordConverterFactory;
 import org.radarcns.util.NotEmptyString;
 import org.radarcns.util.Utility;
 import org.radarcns.util.ValidClass;
@@ -87,8 +87,8 @@ public class MongoDbSinkConnector extends SinkConnector {
                 ConfigDef.Range.atLeast(1), LOW,
                 "Maximum number of items in a MongoDB writer buffer. Once the buffer becomes "
                 + "full, the task fails.")
-            .define(RECORD_CONVERTER, Type.CLASS, RecordConverterFactory.class,
-                ValidClass.isSubclassOf(RecordConverterFactory.class), MEDIUM,
+            .define(RECORD_CONVERTER, Type.CLASS, EggbunRecordConverterFactory.class,
+                ValidClass.isSubclassOf(EggbunRecordConverterFactory.class), MEDIUM,
                 "RecordConverterFactory that returns classes to convert Kafka SinkRecords to "
                 + "BSON documents.");
     private Map<String, String> connectorConfig;
