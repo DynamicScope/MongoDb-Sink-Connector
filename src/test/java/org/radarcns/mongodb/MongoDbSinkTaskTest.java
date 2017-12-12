@@ -36,7 +36,7 @@ import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.radarcns.serialization.RecordConverterFactory;
+import org.radarcns.serialization.EggbunRecordConverterFactory;
 
 public class MongoDbSinkTaskTest {
 
@@ -55,12 +55,12 @@ public class MongoDbSinkTaskTest {
         config.put(MONGO_HOST, "localhost");
         config.put(TOPICS_CONFIG, "t");
         config.put(BUFFER_CAPACITY, String.valueOf(10));
-        config.put(RECORD_CONVERTER, RecordConverterFactory.class.getName());
+        config.put(RECORD_CONVERTER, EggbunRecordConverterFactory.class.getName());
         sinkTask.start(config);
 
         assertEquals(1, answer.timesCalled);
         assertEquals(10, answer.foundBuffer.remainingCapacity());
-        assertEquals(RecordConverterFactory.class, answer.foundFactory.getClass());
+        assertEquals(EggbunRecordConverterFactory.class, answer.foundFactory.getClass());
 
         SinkRecord record = new SinkRecord("t", 1, Schema.STRING_SCHEMA, "k",
                 Schema.STRING_SCHEMA, "v", 1000L);
@@ -77,7 +77,7 @@ public class MongoDbSinkTaskTest {
 
     private static class CreateMongoDbAnswer implements Answer<MongoDbWriter> {
         private BlockingQueue<SinkRecord> foundBuffer;
-        private RecordConverterFactory foundFactory;
+        private EggbunRecordConverterFactory foundFactory;
         private int timesCalled;
         private MongoDbWriter writer;
 

@@ -33,8 +33,8 @@ import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.errors.DataException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.bson.Document;
+import org.radarcns.serialization.EggbunRecordConverterFactory;
 import org.radarcns.serialization.RecordConverter;
-import org.radarcns.serialization.RecordConverterFactory;
 import org.radarcns.util.DurationTimer;
 import org.radarcns.util.Monitor;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class MongoDbWriter implements Closeable, Runnable {
 
     private final AtomicBoolean stopping;
     private final Map<TopicPartition, Long> latestOffsets;
-    private final RecordConverterFactory converterFactory;
+    private final EggbunRecordConverterFactory converterFactory;
     private final Monitor monitor;
     private Throwable exception;
 
@@ -69,7 +69,7 @@ public class MongoDbWriter implements Closeable, Runnable {
      * @throws ConnectException if cannot connect to the MongoDB database.
      */
     public MongoDbWriter(MongoWrapper mongoHelper, BlockingQueue<SinkRecord> buffer,
-                         RecordConverterFactory converterFactory, Timer timer)
+                         EggbunRecordConverterFactory converterFactory, Timer timer)
             throws ConnectException {
         this.buffer = buffer;
         this.monitor = new Monitor(log, "have been written in MongoDB", this.buffer);

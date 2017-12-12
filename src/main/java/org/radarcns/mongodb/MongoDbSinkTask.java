@@ -33,7 +33,7 @@ import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.errors.IllegalWorkerStateException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
-import org.radarcns.serialization.RecordConverterFactory;
+import org.radarcns.serialization.EggbunRecordConverterFactory;
 import org.radarcns.util.DurationTimer;
 import org.radarcns.util.Monitor;
 import org.slf4j.Logger;
@@ -79,9 +79,9 @@ public class MongoDbSinkTask extends SinkTask {
 
         buffer = new ArrayBlockingQueue<>(config.getInt(BUFFER_CAPACITY));
 
-        RecordConverterFactory converterFactory;
+        EggbunRecordConverterFactory converterFactory;
         try {
-            converterFactory = (RecordConverterFactory)config.getClass(RECORD_CONVERTER)
+            converterFactory = (EggbunRecordConverterFactory) config.getClass(RECORD_CONVERTER)
                     .newInstance();
         } catch (InstantiationException | IllegalAccessException | ClassCastException ex) {
             throw new IllegalWorkerStateException("Got illegal RecordConverterClass", ex);
@@ -102,7 +102,7 @@ public class MongoDbSinkTask extends SinkTask {
      */
     public MongoDbWriter createMongoDbWriter(AbstractConfig config,
                                       BlockingQueue<SinkRecord> buffer,
-                                      RecordConverterFactory converterFactory, Timer timer)
+                                      EggbunRecordConverterFactory converterFactory, Timer timer)
             throws ConnectException {
         MongoWrapper mongoHelper = new MongoWrapper(config, null);
 
